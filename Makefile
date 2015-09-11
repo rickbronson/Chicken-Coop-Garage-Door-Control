@@ -57,15 +57,15 @@ clean:
 
 github-init:
 	git init
-	git add ./awu.h ./docs/hardware/800px-STM8S103F3P6.png ./docs/hardware/board.png ./docs/hardware/CD00161709.pdf ./docs/hardware/CD00190271.pdf ./docs/hardware/CD00199324.pdf ./docs/hardware/CD00226640.pdf ./docs/hardware/chip-pinout.png ./docs/hardware/ds1117.pdf ./docs/hardware/hookup1.png ./docs/hardware/stlinkv2.png ./images/garagedooropener.png ./images/mainboard.png ./images/programming.png ./images/schematic.png ./main.c ./main-low-power-test.c ./main-power-debug.c ./Makefile ./notes.txt ./README.md ./stm8.mk ./stsw-stm8069.zip ./STM8S_StdPeriph_Lib.patch ./time.h ./scripts/coop-door-helper.pl ./scripts/parse.sun.pl ./scripts/sun.txt 49-stlinkv2.rules
+	git add ./awu.h ./docs/hardware/800px-STM8S103F3P6.png ./docs/hardware/board.png ./docs/hardware/CD00161709.pdf ./docs/hardware/CD00190271.pdf ./docs/hardware/CD00199324.pdf ./docs/hardware/CD00226640.pdf ./docs/hardware/chip-pinout.png ./docs/hardware/ds1117.pdf ./docs/hardware/hookup1.png ./docs/hardware/stlinkv2.png ./images/garagedooropener.png ./images/mainboard.png ./images/programming.png ./images/schematic.png ./main.c ./main-low-power-test.c ./main-power-debug.c ./Makefile ./notes.txt ./README.md ./stm8.mk ./stsw-stm8069.zip ./STM8S_StdPeriph_Lib.patch ./time.h ./gitignore ./scripts/coop-door-helper.pl ./scripts/parse.sun.pl ./scripts/sun.txt 49-stlinkv2.rules
 	git commit -m "first commit"
 	git remote add origin https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control.git
 	git push -u origin master
 
-
-github:
-	git remote add origin https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control.git
+github-update:
+	git commit -a -m 'update README'
 	git push -u origin master
 
 st-patch:
 	rm -f STM8S_StdPeriph_Lib.patch; for file in `find -L STM8S_StdPeriph_Lib -name "*.~1~"` ; do root_name=`echo $$file | sed -e "s|\(.*\).~1~|\1|"`;  echo "* diffing $$root_name{.~1~,}"; diff -uNr $$root_name.~1~ $$root_name >> STM8S_StdPeriph_Lib.patch; ls > /dev/null; done
+

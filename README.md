@@ -36,8 +36,11 @@ door using an old garage door opener that has been modified.
   I had many of the parts but here are some that I ordered:
 
 [Super-capacitor](http://www.aliexpress.com/item/Super-capacitor-farad-capacitor-type-double-layer-capacitor-5-5V-4F-V-type/1558646499.html)
+
 [FTDI-USB](http://www.aliexpress.com/item/1pcs-FT232RL-FTDI-USB-3-3V-5-5V-to-TTL-Serial-Adapter-Module-for-Arduino-Mini/2019421866.html)
+
 [STM8S103F3P6](http://www.aliexpress.com/item/ARM-STM8S103F3P6-STM8-Minimum-System-Development-Board-Module-For-Arduino/32307411825.html)
+
 [SST-LINK-V2](http://www.aliexpress.com/item/mini-ST-LINK-V2-ST-LINK-STLINK-STM8-STM32-emulator-download-super-protection/1551631840.html)
 
 5. Tools
@@ -59,6 +62,13 @@ sudo apt-get install libusb-1.0-0-dev minicom pkg-config libdate-manip-perl;sudo
 5. Images
 --------------
 
+The modified garage door opener.
 ![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/garagedooropener.png "garagedooropener")
+The mainboard with the STM8 daughter board.
 ![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/mainboard.png "mainboard")
+Everything hooked up ready for programming and serial debug.
 ![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/programming.png "programming")
+Schematic
+![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/schematic.png "programming")
+
+
