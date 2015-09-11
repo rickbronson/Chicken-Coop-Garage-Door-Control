@@ -51,7 +51,8 @@ http://www.aliexpress.com/item/mini-ST-LINK-V2-ST-LINK-STLINK-STM8-STM32-emulato
 	[https://github.com/vdudouyt/stm8flash.git]) sdcc-3.4.0 in
 	/opt/sdcc-3.4.0) I also needed to do:
 
-```sudo cp 49-stlinkv2.rules /etc/udev/rules.d
+```
+sudo cp 49-stlinkv2.rules /etc/udev/rules.d
 sudo apt-get install libusb-1.0-0-dev minicom pkg-config libdate-manip-perl;sudo udevadm control --reload-rules; sudo usermod -a -G dialout $USER; su - $USER; minicom
 ```
 
