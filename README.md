@@ -59,6 +59,6 @@ sudo apt-get install libusb-1.0-0-dev minicom pkg-config libdate-manip-perl;sudo
 5. Images
 --------------
 
-![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/images/garagedooropener.png "garagedooropener")
-![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/images/mainboard.png "mainboard")
-![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/images/programming.png "programming")
+![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/garagedooropener.png "garagedooropener")
+![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/mainboard.png "mainboard")
+![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/programming.png "programming")
