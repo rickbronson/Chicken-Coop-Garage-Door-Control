@@ -22,15 +22,7 @@ CFLAGS=-I$(OPT_HOME)/STM8S_StdPeriph_Lib/Libraries/STM8S_StdPeriph_Driver/inc -I
 
 .PHONY: sdcc-examples-stm8
 
-all:
-#	make clean
-	make sdcc-examples-stm8
-
-sdcc-examples-stm8:
-#	cd sdcc-examples-stm8; $(CC) -lstm8 -mstm8 --out-fmt-ihx uart.c
-	cd sdcc-examples-stm8; $(CC) -lstm8 -mstm8 --opt-code-size -c uart.c -o uart.rel
-	cd sdcc-examples-stm8; $(CC) -lstm8 -mstm8 --out-fmt-ihx -o uart.ihx uart.rel
-	if ls /dev/stlinkv2_* > /dev/null; then stm8flash -cstlinkv2 -pstm8s103 -w sdcc-examples-stm8/uart.ihx; fi
+all: uart
 
 lib:
 #	cd STM8S_StdPeriph_Lib/Project/STM8S_StdPeriph_Template/SDCC; make clean; test -d $(DEVICE) || mkdir $(DEVICE)

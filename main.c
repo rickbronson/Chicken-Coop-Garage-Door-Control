@@ -6,7 +6,7 @@
 #include "time.h"
 
 // #define SPEEDUP_MODE  /* enable to speed things up by x3600 */
-#define SERIAL_DEBUG
+// #define SERIAL_DEBUG
 
 #undef CLK_PCKENR1_UART1
 #define CLK_PCKENR1_UART1    ((uint8_t)0x08) /*!< UART1 clock enable */
@@ -86,8 +86,11 @@ struct MAIN_DATA
 
 	volatile char mins_int;
 	short ticks_60Hz;
-	volatile unsigned char im_ok_cntr;
-#define IM_OK_TIME 30  /* in 60 Hz ticks */
+	volatile unsigned char im_ok_cntr;  /* in 60 Hz ticks */
+	unsigned char im_ok_cntr_set;  /* acts as a state also */
+#define IM_OK_TIME_OK 60  /* everything AOK */
+#define IM_OK_TIME_SENSE_ERR 30  /* sense error for period */
+#define IM_OK_TIME_RESET_ERR 15  /* bad news, if we get here, we stay */
 	char sec_30_int;
 	volatile char got_60Hz_int;
 	short day_of_year;
@@ -97,17 +100,19 @@ struct MAIN_DATA
 	char year;
 	short sunset_mins;
 	short sunrise_mins;
-	char sunrise_delay;  /* 0: nothing 1:open scheduled N:counting down */
+	char sunrise_delay;  /* 0: nothing 1:open scheduled N:counting down to 1 */
 #define SUNRISE_DELAY 30  /* in min's */
-	char sunset_delay;  /* 0: nothing 1:close scheduled N:counting down */
+	char sunset_delay;  /* 0: nothing 1:close scheduled N:counting down to 1 */
 #define SUNSET_DELAY 30  /* in min's */
 
+#ifdef SERIAL_DEBUG
 #define TX_BUFFER_SIZE 100
 #define RX_BUFFER_SIZE 10
 	uint8_t TxBuffer[TX_BUFFER_SIZE];
 	uint8_t RxBuffer[RX_BUFFER_SIZE];
 	uint8_t *tx_hd;
 	uint8_t *tx_tl;
+#endif
 	} main_data = {
 	.min_of_day = HR_INIT * MINS_PER_HR + MIN_INIT,
 	.minute = MIN_INIT,
@@ -118,6 +123,7 @@ struct MAIN_DATA
 	.year = YR_INIT,
 	.sunset_mins = SUNSET_MINS_INIT,
 	.sunrise_mins = SUNRISE_MINS_INIT,
+	.im_ok_cntr_set = IM_OK_TIME_OK,
 	};
 
 #ifdef SERIAL_DEBUG
@@ -244,10 +250,10 @@ INTERRUPT_HANDLER(AWU_IRQHandler, 1)
 		p_data->got_60Hz_int = 0;
 	else
 		{
-		DOOR_SENSE_PORT->CR1 &= ~DOOR_SENSE_PIN;  /* remove pull up */
-		LED_PORT->ODR |= LED_PIN;  /* turn LED off */
+		DOOR_SENSE_PORT->CR1 &= ~DOOR_SENSE_PIN;  /* remove pull up to save power */
+		LED_PORT->ODR |= LED_PIN;  /* turn LED off to save power */
 		if (++p_data->sec_30_int >= CLOCK_ADJUST)
-			{  /* tweak clock a bit */
+			{  /* tweak clock a bit when power failure since we run slow */
 			p_data->sec_30_int = 0;
 			if (++p_data->mins_int >= MINS_PER_HR)  /* Hour? */
 				p_data->mins_int = 0;
@@ -305,6 +311,7 @@ int main()
 	{
 	struct MAIN_DATA *p_data = &main_data;
 	long cntr;
+	unsigned char tmp;
 
 #ifdef SERIAL_DEBUG
 	unsigned char buf[80];
@@ -323,20 +330,23 @@ int main()
 	awu_init();
 
 	enableInterrupts();
-	/* debug only */
-	p_data->im_ok_cntr = -1;
 	for(cntr = 0; cntr < DELAY_LOOP_ONE_SEC / 8; cntr++) // Sleep
 		;  /* wait to see if we get 60 Hz int's */
+	tmp = RST->SR;
 #ifdef SERIAL_DEBUG
-	sprintf(buf, "start test pwr=%d\r\n", p_data->got_60Hz_int);
+	sprintf(buf, "start test RST=0x%x, pwr=%d\r\n", tmp, p_data->got_60Hz_int);
 	uart_write(p_data, buf);
 #endif
+
+	if (!(tmp & RST_SR_SWIMF))  /* did we reset from something other than programming? */
+		p_data->im_ok_cntr_set = IM_OK_TIME_RESET_ERR;  /* fatal error */
+	RST->SR = tmp;  /* clear reset reg */
 	if (p_data->got_60Hz_int)  /* if we did then set LED on for a bit */
-		p_data->im_ok_cntr = IM_OK_TIME * 8;
+		p_data->im_ok_cntr = IM_OK_TIME_OK * 4;
 	do
 		{
 		if (!p_data->im_ok_cntr)
-			p_data->im_ok_cntr = IM_OK_TIME;
+			p_data->im_ok_cntr = p_data->im_ok_cntr_set;
 #ifdef SERIAL_DEBUG
 		while (UART1->CR2 & UART1_CR2_TCIEN)  /* stay here until sent before going into halt */
 			;
@@ -395,7 +405,7 @@ int main()
 				p_data->sunset_delay--;
 			if (p_data->got_60Hz_int)  /* line powered? */
 				{
-				if (!(DOOR_SENSE_PORT->CR1 & DOOR_SENSE_PIN))
+				if (!(DOOR_SENSE_PORT->CR1 & DOOR_SENSE_PIN))  /* is pull up enabled? */
 					{
 					DOOR_SENSE_PORT->CR1 |= DOOR_SENSE_PIN;  /* apply pull up, then wait until next cycle */
 					}
@@ -414,6 +424,8 @@ int main()
 							{
 							DOOR_CONTROL_PORT->ODR |= DOOR_CONTROL_PIN;  /* turn DOOR_CONTROL on */
 							p_data->door_on_time = DOOR_ON_TIME;
+							if (p_data->im_ok_cntr_set != IM_OK_TIME_RESET_ERR)
+								p_data->im_ok_cntr_set = IM_OK_TIME_OK;
 							}
 						else
 							{
@@ -421,6 +433,8 @@ int main()
 							sprintf(buf, "Error: door was supposed to be closed\r\n" );
 							uart_write(p_data, buf);
 #endif
+							if (p_data->im_ok_cntr_set != IM_OK_TIME_RESET_ERR)
+								p_data->im_ok_cntr_set = IM_OK_TIME_SENSE_ERR;
 							}							
 						}
 					if (p_data->sunset_delay == 1)  /* ready to be closed? */
@@ -430,6 +444,8 @@ int main()
 							{
 							DOOR_CONTROL_PORT->ODR |= DOOR_CONTROL_PIN;  /* turn DOOR_CONTROL on */
 							p_data->door_on_time = DOOR_ON_TIME;
+							if (p_data->im_ok_cntr_set != IM_OK_TIME_RESET_ERR)
+								p_data->im_ok_cntr_set = IM_OK_TIME_OK;
 							}
 						else
 							{
@@ -437,6 +453,8 @@ int main()
 							sprintf(buf, "Error: door was supposed to be open\r\n" );
 							uart_write(p_data, buf);
 #endif
+							if (p_data->im_ok_cntr_set != IM_OK_TIME_RESET_ERR)
+								p_data->im_ok_cntr_set = IM_OK_TIME_SENSE_ERR;
 							}							
 						}							
 					}
