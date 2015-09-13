@@ -101,4 +101,4 @@ Schematic
 Coop Door
 ![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/coop.jpg "Coop")
 Door Sensor Switch
-![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/./images/Door-switch.png "Coop")
+![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/Door-switch.png "Coop")

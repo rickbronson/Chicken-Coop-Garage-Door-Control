@@ -49,7 +49,7 @@ clean:
 
 github-init:
 	git init
-	git add ./awu.h ./docs/hardware/800px-STM8S103F3P6.png ./docs/hardware/board.png ./docs/hardware/CD00161709.pdf ./docs/hardware/CD00190271.pdf ./docs/hardware/CD00199324.pdf ./docs/hardware/CD00226640.pdf ./docs/hardware/chip-pinout.png ./docs/hardware/ds1117.pdf ./docs/hardware/hookup1.png ./docs/hardware/stlinkv2.png ./images/garagedooropener.png ./images/mainboard.png ./images/programming.png ./images/schematic.png ./main.c ./main-low-power-test.c ./main-power-debug.c ./Makefile ./notes.txt ./README.md ./stm8.mk ./stsw-stm8069.zip ./STM8S_StdPeriph_Lib.patch ./time.h ./gitignore ./scripts/coop-door-helper.pl ./scripts/parse.sun.pl ./scripts/sun.txt 49-stlinkv2.rules
+	git add ./awu.h ./docs/hardware/800px-STM8S103F3P6.png ./docs/hardware/board.png ./docs/hardware/CD00161709.pdf ./docs/hardware/CD00190271.pdf ./docs/hardware/CD00199324.pdf ./docs/hardware/CD00226640.pdf ./docs/hardware/chip-pinout.png ./docs/hardware/ds1117.pdf ./docs/hardware/hookup1.png ./docs/hardware/stlinkv2.png ./images/garagedooropener.png ./images/coop.jpg ./images/Door-switch.png ./images/mainboard.png ./images/programming.png ./images/schematic.png ./main.c ./main-low-power-test.c ./main-power-debug.c ./Makefile ./notes.txt ./README.md ./stm8.mk ./stsw-stm8069.zip ./STM8S_StdPeriph_Lib.patch ./time.h ./gitignore ./scripts/coop-door-helper.pl ./scripts/parse.sun.pl ./scripts/sun.txt 49-stlinkv2.rules
 	git commit -m "first commit"
 	git remote add origin https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control.git
 	git push -u origin master
