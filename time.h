@@ -1,12 +1,12 @@
-#define SEC_INIT 0
-#define MIN_INIT 4
-#define DOY_INIT 255
-#define HR_INIT 16
+#define SEC_INIT 9
+#define MIN_INIT 10
+#define DOY_INIT 256
+#define HR_INIT 10
 #define YR_INIT 15
 #define SUNRISE_JAN1_MINS_INIT 467 // 07:47
-#define SUNRISE_MINS_INIT 349 // 05:49
+#define SUNRISE_MINS_INIT 350 // 05:50
 #define SUNSET_JAN1_MINS_INIT 1005 // 16:45
-#define SUNSET_MINS_INIT 1107 // 18:27
+#define SUNSET_MINS_INIT 1105 // 18:25
 static const char sunrise_lut[] = {
 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1,  /* 1 */
 -1, -1, -1, -1, -1, -2, -1, -1, -2, -1, -1, -2, -1, -1, -2, -1, -2, -1, -2, -1, -2, -2, -1, -2, -1, -2, -2, -1, -2,  /* 2 */

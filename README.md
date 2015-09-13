@@ -97,6 +97,8 @@ The mainboard with the STM8 daughter board.
 Everything hooked up ready for programming and serial debug.
 ![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/programming.png "programming")
 Schematic
-![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/schematic.png "programming")
-
-
+![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/schematic.png "schematic")
+Coop Door
+![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/coop.jpg "Coop")
+Door Sensor Switch
+![alt text](https://github.com/rickbronson/Chicken-Coop-Garage-Door-Control/blob/master/images/./images/Door-switch.png "Coop")
