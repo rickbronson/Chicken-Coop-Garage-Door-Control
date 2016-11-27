@@ -7,7 +7,7 @@ door using an old garage door opener that has been modified.
 1. The Problem
 --------------
 
-  Here in Oregon there are many night predators that would love to a
+  Here in Oregon there are many night predators that would love to turn a
 	chicken into a nice meal.  The trick is to keep the predators out of
 	your chicken coop.  Chickens naturally go into the coop when it gets
 	dark, we just need a way to shut the door sometime after the sun
